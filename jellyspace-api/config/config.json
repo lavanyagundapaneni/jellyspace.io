@@ -1,0 +1,24 @@
+{
+    "development": {
+      "username": "postgres",
+      "password": "Gundapaneni@29",
+      "database": "jelly-space",
+      "host": "localhost",
+      "dialect": "postgres"
+    },
+    "test": {
+      "username": "postgres",
+      "password": "Gundapaneni@29",
+      "database": "jelly-space",
+      "host": "localhost",
+      "dialect": "postgres"
+    },
+    "production": {
+      "username": "postgres",
+      "password": "Gundapaneni@29",
+      "database": "jelly-space",
+      "host": "localhost",
+      "dialect": "postgres"
+    }
+  }
+  

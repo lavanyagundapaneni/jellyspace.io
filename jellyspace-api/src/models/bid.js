@@ -1,44 +1,22 @@
-const mongoose = require("mongoose");
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-// We will define a schema(database) as shown below
-const BidSchema = new mongoose.Schema({
-    projectId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Project'
-    },
-    // projectId: {
-    //     type: String
-    // },
-    projectName: {
-        type: String
-    },
-    projectEmail: {
-        type: String
-    },
-    rupeesId: {
-        type:String
-    },
-    bidAmount: {
-        type:Number
-    },
-    status: {
-        type:String,
-    },
-    bidDescription: {
-        type:String
-    },
-    userEmail: {
-        type:String
-    },
-    createdAt:{
-        type:Date,
-        default:Date.now
-       }
-})
+const Bid = sequelize.define('Bid', {
+  id: {
+    type: DataTypes.UUID,  // or DataTypes.INTEGER if you are using integers as primary keys
+    primaryKey: true,
+    defaultValue: DataTypes.UUIDV4  // or use autoIncrement: true if using integers
+  },
+  projectId: DataTypes.STRING,
+  projectName: DataTypes.STRING,
+  projectEmail: DataTypes.STRING,
+  rupeesId: DataTypes.STRING,
+  bidAmount: DataTypes.FLOAT,
+  status: DataTypes.STRING,
+  bidDescription: DataTypes.TEXT,
+  userEmail: DataTypes.STRING
+}, {
+  timestamps: true
+});
 
-// Let us now create a collection
-// first create a model
-const Bid = new mongoose.model("Bid", BidSchema);
-
-// Now let us export this model
 module.exports = Bid;
