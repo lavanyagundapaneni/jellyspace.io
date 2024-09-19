@@ -6,7 +6,7 @@ const projectRoute = require("./routes/projectRoute");
 const emailRoute = require("./routes/emailRoute");
 const bidRoute = require("./routes/bidRoute");
 const cors = require("cors");
-const sequelize = require("./config/database"); // Import Sequelize instance
+const { sequelize, syncDatabase } = require("./config/database"); // Import Sequelize instance and sync function
 
 const app = express();
 
@@ -16,12 +16,12 @@ dotenv.config();
 // Define port and PostgreSQL connection URL from environment variables
 const port = process.env.PORT || 8080;
 
-// Configure CORS
 const corsOptions = {
   origin: "http://localhost:4200",
-  credentials: true,
+  credentials: true, 
   optionSuccessStatus: 200,
 };
+
 
 // Middleware
 app.use(express.json());
@@ -32,18 +32,9 @@ app.use("/api", projectRoute);
 app.use("/api", emailRoute);
 app.use("/api", bidRoute);
 
-// Connect to PostgreSQL
-sequelize.authenticate()
-  .then(() => {
-    console.log("Successfully connected to PostgreSQL");
-  })
-  .catch((err) => {
-    console.error("Connection failed:", err);
+// Sync the database and then start the server
+syncDatabase().then(() => {
+  app.listen(port, () => {
+    console.log(`Server is active on port ${port}`);
   });
-
-// Start the server
-app.listen(port, () => {
-  console.log(`Server is active on port ${port}`);
 });
-
-module.exports = app;

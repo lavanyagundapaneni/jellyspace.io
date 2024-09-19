@@ -1,39 +1,50 @@
-const mongoose = require("mongoose");
-
-// We will define a schema(database) as shown below
-const ProjectSchema = new mongoose.Schema({
-    projectName: {
-        type:String,
-        required:true
-    },
-    projectDescription: {
-        type:String,
-        required:true
-    },
-    skills: {
-        type:Array,
-    },
-    billingProcess: {
-        type:String,
-    },
-    budget: {
-        type:String,
-    },
-    projectType: {
-        type:String,
-    },
-    userEmail: {
-        type:String
-    },
-    createdAt:{
-        type:Date,
-        default:Date.now
-       }
-})
-
-// Let us now create a collection
-// first create a model
-const Project = new mongoose.model("Project", ProjectSchema);
-
-// Now let us export this model
-module.exports = Project;
+module.exports = (sequelize, DataTypes) => {
+    const Project = sequelize.define('Project', {
+      projectName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+          len: [3, 255] // Name should be between 3 and 255 characters
+        }
+      },
+      projectDescription: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
+      },
+      skills: {
+        type: DataTypes.ARRAY(DataTypes.STRING), // Array of strings for skills
+        allowNull: true
+      },
+      billingProcess: {
+        type: DataTypes.ENUM('Hourly', 'Fixed'), // Example enum for billing process
+        allowNull: true
+      },
+      budget: {
+        type: DataTypes.DECIMAL(10, 2), // Use DECIMAL for monetary values
+        allowNull: true
+      },
+      projectType: {
+        type: DataTypes.ENUM('Web Development', 'Mobile App', 'Consulting'), // Example enum for project types
+        allowNull: true
+      },
+      userEmail: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          isEmail: true, // Validate email format
+          notEmpty: true
+        }
+      }
+    }, {
+      timestamps: true, // Automatically add createdAt and updatedAt fields
+      paranoid: true, // Enable soft deletes if needed
+      tableName:'projects'
+    });
+  
+    return Project;
+  };
+  

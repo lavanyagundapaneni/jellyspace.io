@@ -1,69 +1,65 @@
-const mongoose = require("mongoose");
+// models/user.js
 
-// We will define a schema(database) as shown below
-const CommpanySchema = new mongoose.Schema({
-    firstName: {
-        type:String,
-        required:true
-    },
-    lastName: {
-        type:String,
-        required:true
-    },
-    email: {
-        type:String,
-        required:true,
-        unique:true
-    },
-    password: {
-        type:String,
-        required:true,
-    },
-    accountType: {
-        type:String,
-    },
-    entityName: {
-        type:String,
-    },
-    dateOfInCorporation: {
-        type:String,
-    },
-    title: {
-        type:String,
-    },
-    mobileNo: {
-        type:String,
-    },
-    skills: {
-        type: Array,
-    },
-    image:{
-        type:String,
-    },
-    street:{
-        type:String,
-    },
-    h_number:{
-        type:String,
-    },
-    city:{
-        type:String,
-    },
-    postalCode:{
-        type:String,
-    },
-    country:{
-        type:String,
-    },
-    createdAt:{
-        type:Date,
-        default:Date.now
-       }
-})
+const { DataTypes } = require('sequelize');
+const {sequelize} = require('../config/database'); // Adjust the path to your database config
 
-// Let us now create a collection
-// first create a model
-const Register = new mongoose.model("Register", CommpanySchema);
+const User = sequelize.define('User', {
+  firstName: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  lastName: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  accountType: {
+    type: DataTypes.STRING
+  },
+  entityName: {
+    type: DataTypes.STRING
+  },
+  dateOfInCorporation: {
+    type: DataTypes.STRING
+  },
+  title: {
+    type: DataTypes.STRING
+  },
+  mobileNo: {
+    type: DataTypes.STRING
+  },
+  skills: {
+    type: DataTypes.ARRAY(DataTypes.STRING)
+  },
+  image: {
+    type: DataTypes.STRING
+  },
+  street: {
+    type: DataTypes.STRING
+  },
+  h_number: {
+    type: DataTypes.STRING
+  },
+  city: {
+    type: DataTypes.STRING
+  },
+  postalCode: {
+    type: DataTypes.STRING
+  },
+  country: {
+    type: DataTypes.STRING
+  }
+}, {
+  timestamps: true, // This will add `createdAt` and `updatedAt` fields
+  tableName: 'Users'
+});
 
-// Now let us export this model
-module.exports = Register;
+module.exports = User;
